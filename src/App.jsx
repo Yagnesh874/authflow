@@ -1,28 +1,21 @@
-import TodoContainer from "./components/TodoContainer";
-import { useEffect, useState } from "react";
-import ThemeToggleButton from "./context/ThemeToggleButton";
-import "./App.css";
-import useLocalStorage from "./hooks/useLocalStorage";
-import EditTodo from "./components/EditTodo";
-import DeleteTodo from "./components/DeleteTodo";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
+import Signin from "./components/Signin";
+import Signup from "./components/Signup";
 
 function App() {
-  const [bgColor, setBgColor] = useLocalStorage("theme" , "Light Mode")
-  const [todoList, setTodoList] = useLocalStorage("todos",[]);
-
-  useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todoList));
-  }, [todoList]);
-
-  useEffect(()=>{
-    document.body.style.backgroundColor = bgColor === "Light Mode" ? "white" : "black";
-    document.body.style.color = bgColor === "Light Mode" ?  "" : "black"
-  },[bgColor])
   return (
     <>
-      <ThemeToggleButton.Provider value={{ bgColor, setBgColor }}>
-        <TodoContainer todoList={todoList} setTodoList={setTodoList} />
-      </ThemeToggleButton.Provider>
+      <Header />
+
+      <Routes>
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/signin" element={<Signin />} />
+        {/* You can render something else on "/" if needed */}
+      </Routes>
+
+      <Footer />
     </>
   );
 }
