@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <>
       <footer>
-        <p class="footer-text">
+        <p className="footer-text">
           © 2023 Your Company Name. All rights reserved. Making the web a better
           place.
         </p>
