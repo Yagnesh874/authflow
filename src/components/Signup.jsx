@@ -39,9 +39,6 @@ const Signup = () => {
       navigate("/signin");
     }, 3000);
 
-    if(password === confirmPassword){
-
-    }
   };
 
   const navigateToSignIn = () => {

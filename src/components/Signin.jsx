@@ -1,6 +1,5 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import userData from "../data/userData.json";
 import "../style/signin.css";
 
 const Signin = () => {
@@ -9,7 +8,7 @@ const Signin = () => {
   const [users, setUsers] = useState([]);
   useEffect(() => {
     let localusers = JSON.parse(localStorage.getItem("users")) || [];
-    setUsers([...localusers, ...users]);
+    setUsers(localusers);
   }, []);
 
   const handleSignin = (e) => {
