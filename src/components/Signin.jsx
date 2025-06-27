@@ -28,8 +28,17 @@ console.log("Entered:", email, password);
   };
 
   const resetFeature = () => {
-    let input = prompt("Please Enter Email id to Update");
-    alert("Email id has been changed");
+  if (!email.trim()) {
+    alert("Please enter your email before clicking Reset.");
+    return;
+  }
+
+  let input = prompt("Please Enter Email id to Update");
+  if (input) {
+    alert("Email ID has been changed to: " + input);
+  } else {
+    alert("Reset cancelled or invalid input.");
+  }
   };
   
   return (
@@ -65,7 +74,7 @@ console.log("Entered:", email, password);
             Log In
           </button>
           <div className="login-links">
-            <button className="reset-btn" onClick={resetFeature}>
+            <button className="reset-btn" onClick={resetFeature} disabled={!email.trim()}>
               Reset
             </button>
           </div>
