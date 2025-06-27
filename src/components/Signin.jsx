@@ -1,78 +1,77 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { useState, useEffect } from "react";
 import "../style/signin.css";
 
 const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [users, setUsers] = useState([]);
-
   useEffect(() => {
-    const localUsers = JSON.parse(localStorage.getItem("users")) || [];
-    setUsers(localUsers);
+    let localusers = JSON.parse(localStorage.getItem("users")) || [];
+    setUsers(localusers);
   }, []);
 
   const handleSignin = (e) => {
     e.preventDefault();
 
-    console.log("Users from localStorage:", users);
-    console.log("Entered:", email, password);
-
     const match = users.find(
       (user) => user.email === email && user.password === password
     );
+    console.log("Users from localStorage:", users);
+console.log("Entered:", email, password);
 
     if (match) {
       alert("Login successful!");
     } else {
-      alert("Email or password is incorrect.");
+      alert("Email or Password is Wrong Please check it.");
     }
   };
 
   const resetFeature = () => {
-    const input = prompt("Please enter your email to reset:");
-    if (input) {
-      alert("Reset link sent to: " + input); // Just a placeholder
-    }
+    let input = prompt("Please Enter Email id to Update");
+    alert("Email id has been changed");
   };
-
+  
   return (
-    <div className="login-container">
-      <h1 className="login-title">Welcome Back</h1>
-      <form onSubmit={handleSignin}>
-        <div className="form-group">
-          <label htmlFor="email">Email Address</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            id="email"
-            className="form-control"
-            placeholder="Enter your email"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="form-control"
-            placeholder="Enter your password"
-            required
-          />
-        </div>
-        <button type="submit" className="login-btn-submit">
-          Log In
-        </button>
-        <div className="login-links">
-          <button type="button" className="reset-btn" onClick={resetFeature}>
-            Reset
+    <>
+      <div className="login-container">
+        <h1 className="login-title">Welcome Back</h1>
+        <form onSubmit={handleSignin}>
+          <div className="form-group">
+            <label for="email">Email Address</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              id="email"
+              className="form-control"
+              placeholder="Enter your email"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="form-control"
+              placeholder="Enter your password"
+              required
+            />
+          </div>
+          <button type="submit" className="login-btn-submit">
+            Log In
           </button>
-        </div>
-      </form>
-    </div>
+          <div className="login-links">
+            <button className="reset-btn" onClick={resetFeature}>
+              Reset
+            </button>
+          </div>
+        </form>
+      </div>
+    </>
   );
 };
 

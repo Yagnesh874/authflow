@@ -13,7 +13,7 @@ const Signup = () => {
 
   useEffect(() => {
     const localUsers = JSON.parse(localStorage.getItem("users")) || [];
-    setUsers([...userData, ...localUsers]);
+    setUsers(localUsers);
   }, []);
 
   
