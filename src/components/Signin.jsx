@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import "../style/signin.css";
 
-const Signin = () => {
+const Signin = ({onCloseIn , onOpenSignup}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [users, setUsers] = useState([]);
@@ -18,68 +18,74 @@ const Signin = () => {
       (user) => user.email === email && user.password === password
     );
     console.log("Users from localStorage:", users);
-console.log("Entered:", email, password);
+    console.log("Entered:", email, password);
 
     if (match) {
       alert("Login successful!");
+
+      sessionStorage.setItem("isLoggedIn" , "true");
+      sessionStorage.setItem("isLoggedIn" , email);
+      
     } else {
       alert("Email or Password is Wrong Please check it.");
     }
   };
 
   const resetFeature = () => {
-  if (!email.trim()) {
-    alert("Please enter your email before clicking Reset.");
-    return;
-  }
+    if (!email.trim()) {
+      alert("Please enter your email before clicking Reset.");
+      return;
+    }
 
-  let input = prompt("Please Enter Email id to Update");
-  if (input) {
-    alert("Email ID has been changed to: " + input);
-  } else {
-    alert("Reset cancelled or invalid input.");
-  }
+    let input = prompt("Please Enter Email id to Update");
+    if (input) {
+      alert("Email ID has been changed to: " + input);
+    } else {
+      alert("Reset cancelled or invalid input.");
+    }
   };
-  
+
   return (
     <>
-      <div className="login-container">
-        <h1 className="login-title">Welcome Back</h1>
-        <form onSubmit={handleSignin}>
-          <div className="form-group">
-            <label for="email">Email Address</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              id="email"
-              className="form-control"
-              placeholder="Enter your email"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label for="password">Password</label>
-            <input
-              type="password"
-              id="password"
+
+       <div id="signinModal" className="modal">
+      <div className="modal-content">
+        <div className="modal-header">
+          <span className="close" onClick={onCloseIn}>&times;</span>
+          <h2>Welcome Back!</h2>
+          <p>Sign in to your account</p>
+        </div>
+        <div className="modal-body">
+          <form className="signin-form" onSubmit={handleSignin}>
+            <div className="form-group">
+              <label htmlFor="signin-email">Email Address</label>
+              <input 
+              type="email" 
+              value={email} 
+              onChange={(e) =>setEmail(e.target.value)} 
+              id="signin-email"
+               name="email"
+              placeholder="Enter your email" required />
+            </div>
+            <div className="form-group">
+              <label htmlFor="signin-password">Password</label>
+              <input type="password" 
+              id="signin-password" 
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="form-control"
-              placeholder="Enter your password"
-              required
-            />
-          </div>
-          <button type="submit" className="login-btn-submit">
-            Log In
-          </button>
-          <div className="login-links">
-            <button className="reset-btn" onClick={resetFeature} disabled={!email.trim()}>
-              Reset
-            </button>
-          </div>
-        </form>
+              onChange={(e) => setPassword(e.target.value)} 
+              name="password"
+              placeholder="Enter your password" required />
+            </div>
+            <button type="submit" className="signin-btn">Sign In</button>
+        
+            <div className="signup-link">
+            You Don't Have Account ?
+              <span onClick={onOpenSignup} > Register</span>
+            </div>
+          </form>
+        </div>
       </div>
+    </div>
     </>
   );
 };

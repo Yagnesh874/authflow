@@ -3,12 +3,13 @@ import "../style/signup.css";
 import { useNavigate  } from "react-router-dom";
 import userData from "../data/userData.json";
 
-const Signup = () => {
+const Signup = ({onClose , onOpenSignin}) => {
   let navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message , setMessage] = useState("")
   const [users, setUsers] = useState([]);
+  const [visible , setVisible] = useState(false)
   const [confirmPassword , setConfirmPassword] = useState("");
 
   useEffect(() => {
@@ -36,7 +37,7 @@ const Signup = () => {
     setPassword("");
 
     setTimeout(() => {
-      navigate("/signin");
+      onOpenSignin();
     }, 3000);
 
   };
@@ -45,46 +46,94 @@ const Signup = () => {
     navigate("/signin");
   };
 
+  const toggleForm = () =>{
+    setVisible(prev => !prev)
+    console.log(visible);
+    
+  }     
   return (
     <>
-      <div className="container">
-        <div className="auth-container">
-          <h2 className="auth-title">Create Your Account</h2>
-          <form onSubmit={handleSignup}>
+    
+      <div id="signupModal" className= "signup-modal" >
+      <div className="signup-modal-content">
+        <div className="signup-modal-header">
+          <button className="close-signup" onClick={onClose}>&times;</button>
+          <h2>Create Account</h2>
+          <p>Join us today and get started</p>
+        </div>
+        <div className="signup-modal-body">
+          <form className="signup-form" onSubmit={handleSignup}>
             <div className="form-group">
-              <label for="signup-email">Email</label>
+              <label htmlFor="signup-email">Email Address</label>
               <input
                 type="email"
                 id="signup-email"
-                value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                value={email}
                 placeholder="Enter your email"
                 required
               />
             </div>
             <div className="form-group">
-              <label for="signup-password">Password</label>
+              <label htmlFor="signup-password">Password</label>
               <input
                 type="password"
                 id="signup-password"
-                value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                value={password}
+                placeholder="Create a password"
+                required
+              />
+            </div>
+            <button type="submit" className="signup-btn">Create Account</button>
+            <div className="signin-link">
+              Already have an account?
+              <span onClick={onOpenSignin} id="switchToSignin">Sign in</span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+
+    {/*
+      <div classNameName="container">
+        <div classNameName="auth-container">
+          <h2 classNameName="auth-title">Create Your Account</h2>
+          <form onSubmit={handleSignup}>
+            <div classNameName="form-group">
+              <label htmlFor="signup-email">Email</label>
+              <input
+                type="email"
+                id="signup-email"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+            <div classNameName="form-group">
+              <label htmlFor="signup-password">Password</label>
+              <input
+                type="password"
+                id="signup-password"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
                 placeholder="Create a password"
                 required
               />
             </div>
             
-
-            
-            <button type="submit" className="auth-btn">
+            <button type="submit" classNameName="auth-btn">
               Sign Up
             </button>
-            <button className="signup-btn-submit" onClick={navigateToSignIn}>
+            <button classNameName="signup-btn-submit" onClick={navigateToSignIn}>
               Already have an account?{" "}
             </button>
           </form>
         </div>
       </div>
+    */}
     </>
   );
 };
