@@ -54,7 +54,11 @@ body {
   transition: color 0.3s ease;
   position: relative;
 }
-
+.nav-link > a {
+  text-decoration: none;
+  color: #333;
+  cursor: pointer;
+}
 .nav-link:hover {
   color: #6366f1;
 }

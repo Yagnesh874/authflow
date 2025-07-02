@@ -5,7 +5,7 @@ import logo from "../assets/logo.jpg";
 import userData from "../data/userData.json";
 
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Home from "./Home";
 function Header({ onSignUpClick , onSignInClick }) {
   const navigate = useNavigate();
@@ -32,9 +32,15 @@ function Header({ onSignUpClick , onSignInClick }) {
           <img src={logo} alt="" srcSet="" className="logo" />
 
           <ul className={`nav-menu ${menuOpen ? "active" : ""}`}>
-            <li className="nav-link"> Home</li>
-            <li className="nav-link"> About</li>
-            <li className="nav-link"> Contact Us</li>
+            <li className="nav-link">
+              <Link to="/" onClick={() => setMenuOpen(false)}>Home</Link>
+            </li>
+            <li className="nav-link"> 
+              <Link to="/about" onClick={() => setMenuOpen(false)}>About</Link>
+            </li>
+            <li className="nav-link"> 
+              <Link to="/contact" onClick={() => setMenuOpen(false)}>Contact us</Link>
+            </li>
             <div className="auth-buttons">
               <button className="btn btn-signin" onClick={onSignInClick}>
                 Sign In

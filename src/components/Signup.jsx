@@ -38,7 +38,7 @@ const Signup = ({onClose , onOpenSignin}) => {
 
     setTimeout(() => {
       onOpenSignin();
-    }, 3000);
+    }, 2000);
 
   };
 
@@ -57,7 +57,7 @@ const Signup = ({onClose , onOpenSignin}) => {
       <div id="signupModal" className= "signup-modal" >
       <div className="signup-modal-content">
         <div className="signup-modal-header">
-          <button className="close-signup" onClick={onClose}>&times;</button>
+          <span className="close-signup" onClick={onClose}>&times;</span>
           <h2>Create Account</h2>
           <p>Join us today and get started</p>
         </div>
@@ -94,46 +94,7 @@ const Signup = ({onClose , onOpenSignin}) => {
         </div>
       </div>
     </div>
-    
 
-    {/*
-      <div classNameName="container">
-        <div classNameName="auth-container">
-          <h2 classNameName="auth-title">Create Your Account</h2>
-          <form onSubmit={handleSignup}>
-            <div classNameName="form-group">
-              <label htmlFor="signup-email">Email</label>
-              <input
-                type="email"
-                id="signup-email"
-                onChange={(e) => setEmail(e.target.value)}
-                value={email}
-                placeholder="Enter your email"
-                required
-              />
-            </div>
-            <div classNameName="form-group">
-              <label htmlFor="signup-password">Password</label>
-              <input
-                type="password"
-                id="signup-password"
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
-                placeholder="Create a password"
-                required
-              />
-            </div>
-            
-            <button type="submit" classNameName="auth-btn">
-              Sign Up
-            </button>
-            <button classNameName="signup-btn-submit" onClick={navigateToSignIn}>
-              Already have an account?{" "}
-            </button>
-          </form>
-        </div>
-      </div>
-    */}
     </>
   );
 };

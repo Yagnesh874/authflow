@@ -9,40 +9,38 @@ import Contact from "./components/Contact";
 import { useState } from "react";
 
 function App() {
-  const [isSignOpen , setIsSignOpen] = useState(false);
-  const [isSigninOpen , setIsSigninOpen] = useState(false);
+  const [isSignOpen, setIsSignOpen] = useState(false);
+  const [isSigninOpen, setIsSigninOpen] = useState(false);
 
   return (
     <>
-
-      <Header 
-      onSignUpClick = {() => setIsSignOpen(true)} 
-      onSignInClick = {() => setIsSigninOpen(true)}
+      <Header
+        onSignUpClick={() => setIsSignOpen(true)}
+        onSignInClick={() => setIsSigninOpen(true)}
       />
       {isSignOpen && (
-        <Signup onClose = {()=> setIsSignOpen(false)}
-        onOpenSignin = {()=> {
-          setIsSignOpen(false)
-          setIsSigninOpen(true)
-        }}
+        <Signup
+          onClose={() => setIsSignOpen(false)}
+          onOpenSignin={() => {
+            setIsSignOpen(false);
+            setIsSigninOpen(true);
+          }}
         />
       )}
       {isSigninOpen && (
-        <Signin onCloseIn = {()=>setIsSigninOpen(false)}
-        onOpenSignup = {()=>{
-          setIsSigninOpen(false)
-          setIsSignOpen(true);
-        }}
+        <Signin
+          onCloseIn={() => setIsSigninOpen(false)}
+          onOpenSignup={() => {
+            setIsSigninOpen(false);
+            setIsSignOpen(true);
+          }}
         />
       )}
 
-      <Home/>
-      <About/>
-      <Contact/>
       <Routes>
-        {/*<Route path="/signup" element={<Signup />} />*/}
-        {/*<Route path="/signin" element={<Signin />} />*/}
-        {/* You can render something else on "/" if needed */}
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
 
       <Footer />
