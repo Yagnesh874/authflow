@@ -1,49 +1,27 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import Footer from "./components/Footer";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import SecureLayout from "./layout/SecureLayout";
+import Dashboard from "./components/Dashboard";
+import MainLayout from "./layout/MainLayout";
 import Header from "./components/Header";
-import Signin from "./components/Signin";
-import Signup from "./components/Signup";
-import Home from "./components/Home";
-import About from "./components/About";
-import Contact from "./components/Contact";
-import { useState } from "react";
-
+import Footer from "./components/Footer";
 function App() {
-  const [isSignOpen, setIsSignOpen] = useState(false);
-  const [isSigninOpen, setIsSigninOpen] = useState(false);
-
   return (
     <>
-      <Header
-        onSignUpClick={() => setIsSignOpen(true)}
-        onSignInClick={() => setIsSigninOpen(true)}
-      />
-      {isSignOpen && (
-        <Signup
-          onClose={() => setIsSignOpen(false)}
-          onOpenSignin={() => {
-            setIsSignOpen(false);
-            setIsSigninOpen(true);
-          }}
-        />
-      )}
-      {isSigninOpen && (
-        <Signin
-          onCloseIn={() => setIsSigninOpen(false)}
-          onOpenSignup={() => {
-            setIsSigninOpen(false);
-            setIsSignOpen(true);
-          }}
-        />
-      )}
-
+    <Header/>
       <Routes>
+      <Route element={<MainLayout/>}>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        </Route>
+        <Route path="/dashboard" element={<SecureLayout />}>
+          <Route index element={<Dashboard />} />
+        </Route>
       </Routes>
-
-      <Footer />
+      <Footer/>
     </>
   );
 }

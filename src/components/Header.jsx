@@ -1,15 +1,16 @@
 import React from "react";
 import "../style/header.css";
-
 import logo from "../assets/logo.jpg";
 import userData from "../data/userData.json";
-
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Home from "./Home";
-function Header({ onSignUpClick , onSignInClick }) {
+// import Home from "../pages/Home";
+import { useAuth } from "../context/AuthContext";
+
+function Header({ onSignUpClick, onSignInClick }) {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
+  const { isLoggedIn, logOut } = useAuth();
 
   useEffect(() => {
     const existingUsers = JSON.parse(localStorage.getItem("users"));
@@ -19,8 +20,6 @@ function Header({ onSignUpClick , onSignInClick }) {
       console.log("User data loaded into localStorage from userdata.json");
     }
   }, []);
-
-  
 
   const toggleMenu = () => {
     setMenuOpen((prev) => !prev);
@@ -33,23 +32,38 @@ function Header({ onSignUpClick , onSignInClick }) {
 
           <ul className={`nav-menu ${menuOpen ? "active" : ""}`}>
             <li className="nav-link">
-              <Link to="/" onClick={() => setMenuOpen(false)}>Home</Link>
+              <Link to="/" onClick={() => setMenuOpen(false)}>
+                Home{" "}
+              </Link>
             </li>
-            <li className="nav-link"> 
-              <Link to="/about" onClick={() => setMenuOpen(false)}>About</Link>
+            <li className="nav-link">
+              <Link to="/about" onClick={() => setMenuOpen(false)}>
+                About
+              </Link>
             </li>
-            <li className="nav-link"> 
-              <Link to="/contact" onClick={() => setMenuOpen(false)}>Contact us</Link>
+            <li className="nav-link">
+              <Link to="/contact" onClick={() => setMenuOpen(false)}>
+                Contact us
+              </Link>
             </li>
-            <div className="auth-buttons">
-              <button className="btn btn-signin" onClick={onSignInClick}>
-                Sign In
-              </button>
 
-              <button className="btn btn-signup" onClick={onSignUpClick}>
-                Sign Up
-              </button>
-            </div>
+            {isLoggedIn ? (
+              <div className="auth-buttons">
+                <button className="btn btn-signout" onClick={logOut}>
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <div className="auth-buttons">
+                <button className="btn btn-signin" onClick={onSignInClick}>
+                  Sign In
+                </button>
+
+                <button className="btn btn-signup" onClick={onSignUpClick}>
+                  Sign Up
+                </button>
+              </div>
+            )}
           </ul>
 
           <div className="mobile-toggle" onClick={toggleMenu}>

@@ -7,10 +7,8 @@ const Signup = ({onClose , onOpenSignin}) => {
   let navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message , setMessage] = useState("")
   const [users, setUsers] = useState([]);
   const [visible , setVisible] = useState(false)
-  const [confirmPassword , setConfirmPassword] = useState("");
 
   useEffect(() => {
     const localUsers = JSON.parse(localStorage.getItem("users")) || [];

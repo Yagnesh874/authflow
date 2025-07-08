@@ -11,7 +11,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Navbar Styles */
 .navbar {
   position: fixed;
   top: 0;
@@ -101,6 +100,11 @@ body {
   color: #6366f1;
   border: 2px solid #6366f1;
 }
+.btn-signout {
+  border: 2px solid #6366f1;
+  color: white;
+  background: #4f46e5;
+}
 
 .btn-signin:hover {
   background: #6366f1;
@@ -118,7 +122,6 @@ body {
   box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
 }
 
-/* Mobile Menu Toggle */
 .mobile-toggle {
   display: none;
   flex-direction: column;
