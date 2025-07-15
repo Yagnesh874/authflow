@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import Signin from "../components/Signin";
 import Signup from "../components/Signup";
 import React, { useState } from "react";
+import Footer from "../components/Footer";
 
 const MainLayout = () => {
   const [isSignOpen, setIsSignOpen] = useState(false);
@@ -32,6 +33,7 @@ const MainLayout = () => {
         />
       )}
       <Outlet />
+      <Footer/>
     </>
   );
 };

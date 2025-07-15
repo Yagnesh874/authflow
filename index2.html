@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background-color: #1e293b;
+            padding: 2rem 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 0 1.5rem 2rem;
+            border-bottom: 1px solid #334155;
+        }
+
+        .sidebar-header h2 {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .nav-links {
+            list-style: none;
+            padding: 1rem 0;
+        }
+
+        .nav-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background-color: #334155;
+            color: white;
+        }
+
+        .nav-links a.active {
+            border-right: 3px solid #3b82f6;
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 0.75rem;
+            fill: currentColor;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-container {
+            flex: 1;
+            max-width: 400px;
+            margin-right: 2rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.5rem 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: #3b82f6;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .theme-toggle:hover {
+            background-color: #f1f5f9;
+        }
+
+        .profile-container {
+            position: relative;
+        }
+
+        .profile-picture {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .profile-picture:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            right: 0;
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            border: 1px solid #e2e8f0;
+            min-width: 220px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            z-index: 1000;
+        }
+
+        .profile-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .profile-info {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .profile-name {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.25rem;
+        }
+
+        .profile-email {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background-color: #e2e8f0;
+            margin: 0.5rem 0;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            color: #334155;
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            gap: 10px;
+            border: none;
+                background: none;
+        }
+
+        /* .dropdown-item:hover {
+            background-color: #f8fafc;
+            color: #1e293b;
+            
+        } */
+
+        .dropdown-item svg {
+            margin-right: 0.75rem;
+            flex-shrink: 0;
+            
+        }
+
+        .logout-item {
+            color: #dc2626;
+            border-top: 1px solid #e2e8f0;
+        }
+        .logout-item>img{
+            width : 25px
+        }
+
+        /* .logout-item:hover {
+            background-color: #fef2f2;
+            color: #dc2626;
+        } */
+
+        /* Content Area */
+        .content {
+            flex: 1;
+            padding: 2rem;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: #64748b;
+            font-size: 1rem;
+        }
+
+        /* User Table */
+        .table-container {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .table-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .filters {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            background-color: white;
+            color: #334155;
+            font-size: 0.875rem;
+            cursor: pointer;
+            min-width: 120px;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .filter-select:hover {
+            border-color: #3b82f6;
+        }
+
+        .filter-select:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .clear-filters {
+            padding: 0.5rem 1rem;
+            background-color: #f1f5f9;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .clear-filters:hover {
+            background-color: #e2e8f0;
+            border-color: #cbd5e1;
+        }
+
+        .clear-filters:active {
+            transform: translateY(1px);
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table thead {
+            background-color: #f8fafc;
+        }
+
+        .table th,
+        .table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .table th {
+            font-weight: 600;
+            color: #475569;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .table td {
+            color: #334155;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-right: 0.75rem;
+            vertical-align: middle;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-name {
+            font-weight: 500;
+        }
+
+        .country-flag {
+            margin-right: 0.5rem;
+            font-size: 1.25rem;
+        }
+
+        /* Dark Theme */
+        .dark-theme {
+            background-color: #0f172a;
+            color: #e2e8f0;
+        }
+
+        .dark-theme .sidebar {
+            background-color: #020617;
+            border-right: 1px solid #1e293b;
+        }
+
+        .dark-theme .sidebar-header {
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .dark-theme .sidebar-header h2 {
+            color: #f1f5f9;
+        }
+
+        .dark-theme .nav-links a {
+            color: #94a3b8;
+        }
+
+        .dark-theme .nav-links a:hover,
+        .dark-theme .nav-links a.active {
+            background-color: #1e293b;
+            color: #f1f5f9;
+        }
+
+        .dark-theme .top-nav {
+            background-color: #1e293b;
+            border-bottom: 1px solid #334155;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .dark-theme .search-input {
+            background-color: #0f172a;
+            border-color: #334155;
+            color: #e2e8f0;
+        }
+
+        .dark-theme .search-input:focus {
+            border-color: #3b82f6;
+        }
+
+        .dark-theme .search-input::placeholder {
+            color: #64748b;
+        }
+
+        .dark-theme .theme-toggle {
+            color: #e2e8f0;
+        }
+
+        .dark-theme .theme-toggle:hover {
+            background-color: #334155;
+        }
+
+        .dark-theme .page-title {
+            color: #f1f5f9;
+        }
+
+        .dark-theme .page-subtitle {
+            color: #94a3b8;
+        }
+
+        .dark-theme .table-container {
+            background-color: #1e293b;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .dark-theme .table-header {
+            border-bottom: 1px solid #334155;
+        }
+
+        .dark-theme .table-title {
+            color: #f1f5f9;
+        }
+
+        .dark-theme .filter-select {
+            background-color: #0f172a;
+            border-color: #334155;
+            color: #e2e8f0;
+        }
+
+        .dark-theme .filter-select:hover,
+        .dark-theme .filter-select:focus {
+            border-color: #3b82f6;
+        }
+
+        .dark-theme .filter-select:focus {
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        .dark-theme .clear-filters {
+            background-color: #334155;
+            color: #e2e8f0;
+            border-color: #475569;
+        }
+
+        .dark-theme .profile-dropdown {
+            background-color: #1e293b;
+            border-color: #334155;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .dark-theme .profile-info {
+            border-bottom: 1px solid #334155;
+        }
+
+        .dark-theme .profile-name {
+            color: #f1f5f9;
+        }
+
+        .dark-theme .profile-email {
+            color: #94a3b8;
+        }
+
+        .dark-theme .dropdown-divider {
+            background-color: #334155;
+        }
+
+        .dark-theme .dropdown-item {
+            color: #e2e8f0;
+        }
+
+        .dark-theme .dropdown-item:hover {
+            background-color: #334155;
+            color: #f1f5f9;
+        }
+
+        .dark-theme .logout-item {
+            color: #f87171;
+            border-top: 1px solid #334155;
+        }
+
+        .dark-theme .logout-item:hover {
+            background-color: #450a0a;
+            color: #f87171;
+        }
+
+        .dark-theme .table thead {
+            background-color: #0f172a;
+        }
+
+        .dark-theme .table th {
+            color: #94a3b8;
+            border-bottom: 1px solid #334155;
+        }
+
+        .dark-theme .table td {
+            color: #e2e8f0;
+            border-bottom: 1px solid #334155;
+        }
+
+        .dark-theme .table tbody tr:hover {
+            background-color: #334155;
+        }
+
+        .dark-theme .user-name {
+            color: #f1f5f9;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+            
+            .main-content {
+                margin-left: 200px;
+            }
+            
+            .top-nav {
+                padding: 1rem;
+                
+            }
+            
+            .content {
+                padding: 1rem;
+            }
+
+            .table-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .filters {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .filter-select {
+                min-width: 100px;
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin Panel</h2>
+            </div>
+            <ul class="nav-links">
+                <li>
+                    <a href="#" class="active">
+                        <svg class="nav-icon" viewBox="0 0 24 24">
+                            <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+                        </svg>
+                        Dashboard
+                    </a>
+                </li>
+           
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Navigation -->
+            <div class="top-nav">
+                <div class="search-container">
+                    <!-- <input type="text" class="search-input" placeholder="Search users, companies, or countries..."> -->
+                </div>
+                <div class="nav-actions">
+                    <button class="theme-toggle">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="5"/>
+                            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                        </svg>
+                    </button>
+                    <div class="profile-container">
+                        <div class="profile-picture" id="profilePicture">
+                            AD
+                        </div>
+                        <div class="profile-dropdown" id="profileDropdown">
+                            <div class="profile-info">
+                                <div class="profile-name">Admin User</div>
+                                <div class="profile-email">admin@example.com</div>
+                            </div>
+                            <button  class="dropdown-item logout-item" id="logoutBtn">
+                                
+                                <img src="./src/assets/logout.png"  alt="" srcset="">
+                                Logout
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="content">
+                <div class="page-header">
+                    <h1 class="page-title">Dashboard</h1>
+                    <p class="page-subtitle">Welcome back! Here's what's happening with your users.</p>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <h2 class="table-title">User Management</h2>
+                        <div class="filters">
+                            <select class="filter-select" id="countryFilter">
+                                <option value="">All Countries</option>
+                                <option value="United States">🇺🇸 United States</option>
+                                <option value="United Kingdom">🇬🇧 United Kingdom</option>
+                                <option value="Canada">🇨🇦 Canada</option>
+                                <option value="Germany">🇩🇪 Germany</option>
+                                <option value="Australia">🇦🇺 Australia</option>
+                                <option value="France">🇫🇷 France</option>
+                            </select>
+                            
+                            <select class="filter-select" id="companyFilter">
+                                <option value="">All Companies</option>
+                                <option value="Tech Solutions Inc.">Tech Solutions Inc.</option>
+                                <option value="Digital Marketing Ltd.">Digital Marketing Ltd.</option>
+                                <option value="Creative Studios">Creative Studios</option>
+                                <option value="Innovation Labs">Innovation Labs</option>
+                                <option value="Global Enterprises">Global Enterprises</option>
+                                <option value="Design Agency">Design Agency</option>
+                            </select>
+                            
+                            <select class="filter-select" id="ageFilter">
+                                <option value="">All Ages</option>
+                                <option value="20-29">20-29 years</option>
+                                <option value="30-39">30-39 years</option>
+                                <option value="40-49">40-49 years</option>
+                                <option value="50+">50+ years</option>
+                            </select>
+                            
+                            <button class="clear-filters" id="clearFilters">Clear Filters</button>
+                        </div>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Company</th>
+                                <th>Country</th>
+                                <th>Age</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="user-info">
+                                        <div class="user-avatar">JD</div>
+                                        <span class="user-name">John Doe</span>
+                                    </div>
+                                </td>
+                                <td>john.doe@example.com</td>
+                                <td>+1 (555) 123-4567</td>
+                                <td>Tech Solutions Inc.</td>
+                                <td><span class="country-flag">🇺🇸</span>United States</td>
+                                <td>32</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-info">
+                                        <div class="user-avatar">AS</div>
+                                        <span class="user-name">Alice Smith</span>
+                                    </div>
+                                </td>
+                                <td>alice.smith@example.com</td>
+                                <td>+44 20 7946 0958</td>
+                                <td>Digital Marketing Ltd.</td>
+                                <td><span class="country-flag">🇬🇧</span>United Kingdom</td>
+                                <td>28</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-info">
+                                        <div class="user-avatar">MJ</div>
+                                        <span class="user-name">Michael Johnson</span>
+                                    </div>
+                                </td>
+                                <td>m.johnson@example.com</td>
+                                <td>+1 (555) 987-6543</td>
+                                <td>Creative Studios</td>
+                                <td><span class="country-flag">🇨🇦</span>Canada</td>
+                                <td>35</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-info">
+                                        <div class="user-avatar">SL</div>
+                                        <span class="user-name">Sarah Lee</span>
+                                    </div>
+                                </td>
+                                <td>sarah.lee@example.com</td>
+                                <td>+49 30 12345678</td>
+                                <td>Innovation Labs</td>
+                                <td><span class="country-flag">🇩🇪</span>Germany</td>
+                                <td>29</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-info">
+                                        <div class="user-avatar">RW</div>
+                                        <span class="user-name">Robert Wilson</span>
+                                    </div>
+                                </td>
+                                <td>robert.wilson@example.com</td>
+                                <td>+61 2 9876 5432</td>
+                                <td>Global Enterprises</td>
+                                <td><span class="country-flag">🇦🇺</span>Australia</td>
+                                <td>42</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-info">
+                                        <div class="user-avatar">EM</div>
+                                        <span class="user-name">Emma Martinez</span>
+                                    </div>
+                                </td>
+                                <td>emma.martinez@example.com</td>
+                                <td>+33 1 23 45 67 89</td>
+                                <td>Design Agency</td>
+                                <td><span class="country-flag">🇫🇷</span>France</td>
+                                <td>26</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.querySelector('.theme-toggle');
+        const body = document.body;
+        
+        // Check for saved theme preference or default to light
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-theme');
+            updateThemeIcon();
+        }
+
+        themeToggle.addEventListener('click', function() {
+            body.classList.toggle('dark-theme');
+            
+            // Save theme preference
+            const currentTheme = body.classList.contains('dark-theme') ? 'dark' : 'light';
+            localStorage.setItem('theme', currentTheme);
+            
+            updateThemeIcon();
+        });
+
+        function updateThemeIcon() {
+            const isDark = body.classList.contains('dark-theme');
+            const icon = themeToggle.querySelector('svg');
+            
+            if (isDark) {
+                // Moon icon for dark theme
+                icon.innerHTML = `
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                `;
+            } else {
+                // Sun icon for light theme
+                icon.innerHTML = `
+                    <circle cx="12" cy="12" r="5"/>
+                    <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                `;
+            }
+        }
+
+        // Filter functionality
+        const countryFilter = document.getElementById('countryFilter');
+        const companyFilter = document.getElementById('companyFilter');
+        const ageFilter = document.getElementById('ageFilter');
+        const clearFiltersBtn = document.getElementById('clearFilters');
+        const tableRows = document.querySelectorAll('.table tbody tr');
+
+        function filterTable() {
+            const countryValue = countryFilter.value;
+            const companyValue = companyFilter.value;
+            const ageValue = ageFilter.value;
+            const searchTerm = document.querySelector('.search-input').value.toLowerCase();
+
+            tableRows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                const country = cells[4].textContent.trim();
+                const company = cells[3].textContent.trim();
+                const age = parseInt(cells[5].textContent.trim());
+                const allText = row.textContent.toLowerCase();
+
+                let showRow = true;
+
+                // Country filter
+                if (countryValue && !country.includes(countryValue)) {
+                    showRow = false;
+                }
+
+                // Company filter
+                if (companyValue && company !== companyValue) {
+                    showRow = false;
+                }
+
+                // Age filter
+                if (ageValue) {
+                    let ageMatch = false;
+                    switch (ageValue) {
+                        case '20-29':
+                            ageMatch = age >= 20 && age <= 29;
+                            break;
+                        case '30-39':
+                            ageMatch = age >= 30 && age <= 39;
+                            break;
+                        case '40-49':
+                            ageMatch = age >= 40 && age <= 49;
+                            break;
+                        case '50+':
+                            ageMatch = age >= 50;
+                            break;
+                    }
+                    if (!ageMatch) {
+                        showRow = false;
+                    }
+                }
+
+                // Search filter
+                if (searchTerm && !allText.includes(searchTerm)) {
+                    showRow = false;
+                }
+
+                row.style.display = showRow ? '' : 'none';
+            });
+        }
+
+        // Add event listeners to all filters
+        countryFilter.addEventListener('change', filterTable);
+        companyFilter.addEventListener('change', filterTable);
+        ageFilter.addEventListener('change', filterTable);
+
+        // Profile dropdown functionality
+        const profilePicture = document.getElementById('profilePicture');
+        const profileDropdown = document.getElementById('profileDropdown');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        profilePicture.addEventListener('click', function(e) {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('active');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!profilePicture.contains(e.target) && !profileDropdown.contains(e.target)) {
+                profileDropdown.classList.remove('active');
+            }
+        });
+
+        // Logout functionality
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm('Are you sure you want to logout?')) {
+                // Here you would typically redirect to login page or call logout API
+                alert('Logout successful! (This is a demo)');
+                profileDropdown.classList.remove('active');
+            }
+        });
+
+        // Close dropdown when pressing Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                profileDropdown.classList.remove('active');
+            }
+        });
+
+        // Update search functionality to work with filters
+        document.querySelector('.search-input').addEventListener('input', function(e) {
+            filterTable();
+        });
+
+        // Active nav link handling
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

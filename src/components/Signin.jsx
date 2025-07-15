@@ -25,7 +25,7 @@ const Signin = ({ onCloseIn, onOpenSignup }) => {
 
     if (match) {
       alert("Login successful!");
-      login(email);
+      login(match.email, match.firstName, match.lastName); 
       onCloseIn();
       navigate("/dashboard")
 

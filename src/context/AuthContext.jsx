@@ -1,29 +1,59 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const [emailId, setEmailId] = useState();
+  const [firstName, setFirstName] = useState();
+  const [lastName, setLastName] = useState();
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    localStorage.getItem("isAuthenticated") === "true"
-  );
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const login = (email) => {
+ useEffect(() => {
+  const storedEmail = localStorage.getItem("userEmail");
+  const storedFirstName = localStorage.getItem("firstName") ;
+  const storedLastName = localStorage.getItem("lastName");
+  const isAuth = localStorage.getItem("isAuthenticated") === "true";
+
+  if (storedEmail) setEmailId(storedEmail);
+  if (storedFirstName) setFirstName(storedFirstName);
+  if (storedLastName) setLastName(storedLastName);
+  setIsLoggedIn(isAuth);
+}, []);
+
+  const login = (email, firstName, lastName) => {
     localStorage.setItem("isAuthenticated", "true");
-    sessionStorage.setItem("userEmail", email);
+    localStorage.setItem("userEmail", email);
+    localStorage.setItem("firstName", firstName);
+    localStorage.setItem("lastName", lastName);
+    setEmailId(email);
+    setFirstName(firstName);
+    setLastName(lastName);
     setIsLoggedIn(true);
   };
 
+
   const logOut = () => {
     localStorage.removeItem("isAuthenticated");
-    sessionStorage.removeItem("userEmail");
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("firstName");
+    localStorage.removeItem("lastName");
     setIsLoggedIn(false);
     navigate("/");
   };
 
   return (
     <>
-      <AuthContext.Provider value={{ isLoggedIn, login, logOut }}>
+      <AuthContext.Provider
+        value={{
+          isLoggedIn,
+          login,
+          logOut,
+          emailId,
+          firstName,
+          lastName,
+        }}
+      >
         {children}
       </AuthContext.Provider>
     </>

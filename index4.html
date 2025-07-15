@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .container-2 {
+        display: flex;
+        height: 100vh;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        width: 250px;
+        background-color: #1e293b;
+        padding: 2rem 0;
+        position: fixed;
+        height: 100vh;
+        overflow-y: auto;
+      }
+
+      .sidebar-header {
+        padding: 0 1.5rem 2rem;
+        border-bottom: 1px solid #334155;
+      }
+
+      .sidebar-header h2 {
+        color: white;
+        font-size: 1.5rem;
+        font-weight: 600;
+      }
+
+      .nav-links {
+        list-style: none;
+        padding: 1rem 0;
+      }
+
+      .nav-links li {
+        margin-bottom: 0.5rem;
+      }
+
+      .nav-links a {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1.5rem;
+        color: #cbd5e1;
+        text-decoration: none;
+        transition: all 0.2s;
+      }
+
+      .nav-links a:hover,
+      .nav-links a.active {
+        background-color: #334155;
+        color: white;
+      }
+
+      .nav-links a.active {
+        border-right: 3px solid #3b82f6;
+      }
+
+      .nav-icon {
+        width: 20px;
+        height: 20px;
+        margin-right: 0.75rem;
+        fill: currentColor;
+      }
+
+      /* Main Content */
+      .main-content-2 {
+        flex: 1;
+        margin-left: 250px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Top Navigation */
+      .top-nav {
+        background: white;
+        padding: 1rem 2rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .search-container {
+        flex: 1;
+        max-width: 400px;
+        margin-right: 2rem;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 0.5rem 1rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+
+      .search-input:focus {
+        border-color: #3b82f6;
+      }
+
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .theme-toggle {
+        background: none;
+        border: none;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+
+      .theme-toggle:hover {
+        background-color: #f1f5f9;
+      }
+
+      .profile-container {
+        position: relative;
+      }
+
+      .profile-picture {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .profile-picture:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+      }
+
+      .profile-dropdown {
+        position: absolute;
+        top: calc(100% + 0.5rem);
+        right: 0;
+        background: white;
+        border-radius: 0.75rem;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        border: 1px solid #e2e8f0;
+        min-width: 220px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.2s ease;
+        z-index: 1000;
+      }
+
+      .profile-dropdown.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .profile-info {
+        padding: 1rem;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .profile-name {
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 0.25rem;
+      }
+
+      .profile-email {
+        font-size: 0.875rem;
+        color: #64748b;
+      }
+
+      .dropdown-divider {
+        height: 1px;
+        background-color: #e2e8f0;
+        margin: 0.5rem 0;
+      }
+
+      .dropdown-item {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        color: #334155;
+        text-decoration: none;
+        font-size: 0.875rem;
+        transition: all 0.2s;
+        gap: 10px;
+        border: none;
+        background: none;
+      }
+
+      .dropdown-item svg {
+        margin-right: 0.75rem;
+        flex-shrink: 0;
+      }
+
+      .logout-item {
+        color: #dc2626;
+        border-top: 1px solid #e2e8f0;
+      }
+      .logout-item > img {
+        width: 25px;
+      }
+    </style>
+  </head>
+  <body>
+    <div className="container-2">
+      <div className="sidebar">
+        <div className="sidebar-header">
+          <h2>Admin Panel</h2>
+        </div>
+        <ul className="nav-links">
+          <li>
+            <a href="#" className="active">
+              <svg className="nav-icon" viewBox="0 0 24 24">
+                <path
+                  d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"
+                />
+              </svg>
+              Dashboard
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="main-content-2">
+        <div class="top-nav">
+          <div class="search-container"></div>
+          <div class="nav-actions">
+            <button class="theme-toggle">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="12" r="5" />
+                <path
+                  d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"
+                />
+              </svg>
+            </button>
+            <div class="profile-container">
+              <div class="profile-picture" id="profilePicture">AD</div>
+              <div class="profile-dropdown" id="profileDropdown">
+                <div class="profile-info">
+                  <div class="profile-name">Admin User</div>
+                  <div class="profile-email">admin@example.com</div>
+                </div>
+                <button class="dropdown-item logout-item" id="logoutBtn">
+                  <img src="./src/assets/logout.png" alt="" srcset="" />
+                  Logout
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

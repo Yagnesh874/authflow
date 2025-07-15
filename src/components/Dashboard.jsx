@@ -1,13 +1,13 @@
 import React from "react";
-import "../style/dashboard.css"; // Make sure to create this CSS file
-
+// import "../style/dashboard.css";
+import Profile from "./dashboardPages/Profile";
+import Data from "./dashboardPages/Data";
 const Dashboard = () => {
   return (
-   <>
-     <div className="dashboard-container">
-      <h1>Welcome to Dashboard</h1>
-    </div>
-   </>
+    <>
+    <Profile/>
+    <Data/>
+    </>
   );
 };
 

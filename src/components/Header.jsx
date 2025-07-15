@@ -48,11 +48,18 @@ function Header({ onSignUpClick, onSignInClick }) {
             </li>
 
             {isLoggedIn ? (
-              <div className="auth-buttons">
-                <button className="btn btn-signout" onClick={logOut}>
-                  Logout
-                </button>
-              </div>
+              <>
+                <li className="nav-link">
+                  <Link to="/dashboard" onClick={() => setMenuOpen(false)}>
+                    Dashboard
+                  </Link>
+                </li>
+                <div className="auth-buttons">
+                  <button className="btn btn-signout" onClick={logOut}>
+                    Logout
+                  </button>
+                </div>
+              </>
             ) : (
               <div className="auth-buttons">
                 <button className="btn btn-signin" onClick={onSignInClick}>
