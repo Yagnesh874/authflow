@@ -337,8 +337,8 @@ label {
 }
 
 button {
-  background: linear-gradient(135deg, #3b82f6, #6366f1);
-  color: white;
+  /* background: linear-gradient(135deg, #3b82f6, #6366f1); */
+  /* color: white; */
   border: none;
   padding: 12px 24px;
   border-radius: 8px;
@@ -346,7 +346,7 @@ button {
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -354,9 +354,9 @@ button {
 }
 
 button:hover {
-  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  /* background: linear-gradient(135deg, #2563eb, #4f46e5); */
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); */
 }
 
 button:active {
