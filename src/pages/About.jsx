@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+
 import "../style/about.css"
 import logo from "../assets/logo-2.png"
 import image1 from "../assets/office1.jpg";

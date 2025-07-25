@@ -43,6 +43,8 @@ const Signup = ({onClose , onOpenSignin}) => {
     alert("Signup successful!");
     setEmail("");
     setPassword("");
+    setFirstName("");
+    setLastName("");
     console.log(email , firstName , lastName);
     
 
