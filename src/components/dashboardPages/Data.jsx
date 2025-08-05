@@ -1,9 +1,9 @@
-import React, { useEffect, useState ,useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./data.css";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import autoTable from "jspdf-autotable";
-import {  toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { body } from "motion/react-client";
 
 const Data = () => {
@@ -42,9 +42,9 @@ const Data = () => {
     fetchUserData();
   }, []);
   // Reset page when filters change
-useEffect(() => {
-  setCurrentPage(1);
-}, [selectCity, deptName, age, userName]);
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectCity, deptName, age, userName]);
 
   const getFilteredUsers = () => {
     return (
@@ -71,12 +71,11 @@ useEffect(() => {
     );
   };
 
-  const allFilteredUsers  = getFilteredUsers();
-  const paginatedUsers  = allFilteredUsers.slice(
+  const allFilteredUsers = getFilteredUsers();
+  const paginatedUsers = allFilteredUsers.slice(
     (currentPage - 1) * usersPerPage,
     currentPage * usersPerPage
   );
-  
 
   const clearFilters = () => {
     setSelectedCity("");
@@ -86,16 +85,16 @@ useEffect(() => {
     setCurrentPage(1);
   };
 
-  const exportToPdf = () =>{
+  const exportToPdf = () => {
     const doc = new jsPDF();
 
     doc.setFontSize(18);
-    doc.text("User Data Report - Page " +currentPage, 14 , 15);
+    doc.text("User Data Report - Page " + currentPage, 14, 15);
 
-    autoTable(doc , {
-      startY : 25 , 
-      head : [["name" , "Email" , "Phone", "Department" , "City" , "Age"]],
-      body : paginatedUsers.map((user)=>[
+    autoTable(doc, {
+      startY: 25,
+      head: [["name", "Email", "Phone", "Department", "City", "Age"]],
+      body: paginatedUsers.map((user) => [
         `${user.firstName} ${user.lastName}`,
         user.email,
         user.phone,
@@ -105,12 +104,12 @@ useEffect(() => {
       ]),
     });
 
-    if(paginatedUsers.length === 0){
+    if (paginatedUsers.length === 0) {
       toast.error("No data to export on this page.");
       return;
     }
-    doc.save("user-data.pdf")
-  }
+    doc.save("user-data.pdf");
+  };
 
   return (
     <div className="container-2">
@@ -194,8 +193,8 @@ useEffect(() => {
                   Clear Filters
                 </button>
                 <button className="export-pdf" onClick={exportToPdf}>
-                   Download PDF
-                 </button>
+                  Download PDF
+                </button>
               </div>
             </div>
 

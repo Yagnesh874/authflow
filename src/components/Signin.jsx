@@ -3,16 +3,17 @@ import { useState, useEffect } from "react";
 import "../style/signin.css";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Signin = ({ onCloseIn, onOpenSignup }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const {login} = useAuth();
+  const { login } = useAuth();
 
-  const getStoredUsers = () =>{
-    return JSON.parse(localStorage.getItem("users")) || []
-  }
+  const getStoredUsers = () => {
+    return JSON.parse(localStorage.getItem("users")) || [];
+  };
 
   const handleSignin = (e) => {
     e.preventDefault();
@@ -24,11 +25,10 @@ const Signin = ({ onCloseIn, onOpenSignup }) => {
     );
 
     if (match) {
-      alert("Login successful!");
-      login(match.email, match.firstName, match.lastName); 
+      toast.success(`Welcome to Our Website`);
+      login(match.email, match.firstName, match.lastName);
       onCloseIn();
-      navigate("/dashboard")
-
+      navigate("/dashboard");
     } else {
       alert("Email or Password is Wrong Please check it.");
     }
