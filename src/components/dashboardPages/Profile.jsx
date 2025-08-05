@@ -2,14 +2,16 @@ import React, { useState, useEffect, useRef } from "react";
 import "./profile.css";
 import { useAuth } from "../../context/AuthContext";
 import { useTheme } from "../../context/ThemeContext";
+import {  toast } from "react-toastify";
 
 const Profile = () => {
   const [profileOpen, setProfileOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const { firstName, lastName, emailId, logOut } = useAuth();
+  const { firstName, lastName, emailId, logOut ,updateName } = useAuth();
   const { darkMode, toggleTheme } = useTheme();
   const firstNameRef = useRef(null);
   const lastNameRef = useRef(null);
+
 
   const toggleProfile = () => {
     setProfileOpen(!profileOpen); 
@@ -18,10 +20,9 @@ const Profile = () => {
     if (firstNameRef.current && lastNameRef.current) {
       const updatedFirstName = firstNameRef.current.value.trim();
       const updatedLastName = lastNameRef.current.value.trim();
-
-      localStorage.setItem("firstName", updatedFirstName);
-      localStorage.setItem("lastName", updatedLastName);
+      updateName(updatedFirstName , updatedLastName);
       setIsEditing(false);
+      toast.success("Profile updated successfully!")
     }
   };
 

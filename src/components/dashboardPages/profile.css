@@ -274,10 +274,10 @@ input[type="text"] {
   width: 100%;
   padding: 12px 16px;
   margin: 8px 0;
-  border: 1px solid #334155;
+  /* border: 1px solid #334155; */
   border-radius: 8px;
-  background-color: #1e293b;
-  color: #e2e8f0;
+  /* background-color: #1e293b; */
+  color: black;
   font-size: 14px;
   transition: all 0.3s ease;
   box-sizing: border-box;

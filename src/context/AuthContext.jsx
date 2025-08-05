@@ -42,6 +42,13 @@ export const AuthProvider = ({ children }) => {
     navigate("/");
   };
 
+  const updateName = (newFirst , newLast) =>{
+    localStorage.setItem("firstName" , newFirst);
+    localStorage.setItem("lastName" , newLast);
+    setFirstName(newFirst);
+    setLastName(newLast)
+  }
+
   return (
     <>
       <AuthContext.Provider
@@ -52,6 +59,7 @@ export const AuthProvider = ({ children }) => {
           emailId,
           firstName,
           lastName,
+          updateName
         }}
       >
         {children}

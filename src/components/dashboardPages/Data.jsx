@@ -1,5 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState ,useRef } from "react";
 import "./data.css";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
+import autoTable from "jspdf-autotable";
+import {  toast } from "react-toastify";
+import { body } from "motion/react-client";
 
 const Data = () => {
   const usersPerPage = 8;
@@ -36,6 +41,10 @@ const Data = () => {
 
     fetchUserData();
   }, []);
+  // Reset page when filters change
+useEffect(() => {
+  setCurrentPage(1);
+}, [selectCity, deptName, age, userName]);
 
   const getFilteredUsers = () => {
     return (
@@ -62,10 +71,12 @@ const Data = () => {
     );
   };
 
-  const filteredUsers = getFilteredUsers().slice(
+  const allFilteredUsers  = getFilteredUsers();
+  const paginatedUsers  = allFilteredUsers.slice(
     (currentPage - 1) * usersPerPage,
     currentPage * usersPerPage
   );
+  
 
   const clearFilters = () => {
     setSelectedCity("");
@@ -74,6 +85,32 @@ const Data = () => {
     setUserName("");
     setCurrentPage(1);
   };
+
+  const exportToPdf = () =>{
+    const doc = new jsPDF();
+
+    doc.setFontSize(18);
+    doc.text("User Data Report - Page " +currentPage, 14 , 15);
+
+    autoTable(doc , {
+      startY : 25 , 
+      head : [["name" , "Email" , "Phone", "Department" , "City" , "Age"]],
+      body : paginatedUsers.map((user)=>[
+        `${user.firstName} ${user.lastName}`,
+        user.email,
+        user.phone,
+        user.company.department,
+        user.company.address.city,
+        user.age.toString(),
+      ]),
+    });
+
+    if(paginatedUsers.length === 0){
+      toast.error("No data to export on this page.");
+      return;
+    }
+    doc.save("user-data.pdf")
+  }
 
   return (
     <div className="container-2">
@@ -156,6 +193,9 @@ const Data = () => {
                 <button className="clear-filters" onClick={clearFilters}>
                   Clear Filters
                 </button>
+                <button className="export-pdf" onClick={exportToPdf}>
+                   Download PDF
+                 </button>
               </div>
             </div>
 
@@ -172,7 +212,7 @@ const Data = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredUsers.map((user) => (
+                  {paginatedUsers.map((user) => (
                     <tr key={user.id}>
                       <td>
                         <div className="user-info">
@@ -195,7 +235,7 @@ const Data = () => {
               </table>
             ) : (
               <div className="grid-view">
-                {filteredUsers.map((user) => (
+                {paginatedUsers.map((user) => (
                   <div key={user.id} className="grid-card">
                     <p>
                       <strong>
@@ -212,7 +252,7 @@ const Data = () => {
               </div>
             )}
 
-            {getFilteredUsers().length > usersPerPage && (
+            {allFilteredUsers.length > usersPerPage && (
               <div className="pagination">
                 {Array.from({
                   length: Math.ceil(getFilteredUsers().length / usersPerPage),
