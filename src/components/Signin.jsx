@@ -30,7 +30,7 @@ const Signin = ({ onCloseIn, onOpenSignup }) => {
       onCloseIn();
       navigate("/dashboard");
     } else {
-      alert("Email or Password is Wrong Please check it.");
+      toast.error("Email or password is wrong please check it.");
     }
   };
 
