@@ -9,7 +9,7 @@ const Signin = ({ onCloseIn, onOpenSignup }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login , role } = useAuth();
 
   const getStoredUsers = () => {
     return JSON.parse(localStorage.getItem("users")) || [];
@@ -24,9 +24,10 @@ const Signin = ({ onCloseIn, onOpenSignup }) => {
       (user) => user.email === email && user.password === password
     );
 
+    
     if (match) {
       toast.success(`Welcome to Our Website`);
-      login(match.email, match.firstName, match.lastName);
+      login(match.email, match.firstName, match.lastName , match.role);
       onCloseIn();
       navigate("/dashboard");
     } else {
@@ -102,3 +103,4 @@ const Signin = ({ onCloseIn, onOpenSignup }) => {
 };
 
 export default Signin;
+  

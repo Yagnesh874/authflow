@@ -1,23 +1,38 @@
 [
     {
         "email" : "ankit@gmail.com",
-        "password" : "ankit@1234"
+        "password" : "ankit@1234",
+        "role" : "admin",
+        "firstName": "Ankit",
+        "lastName": "Sharma"
     },
     {
         "email" : "rohit@gmail.com",
-        "password" : "rohit@1234"
+        "password" : "rohit@1234",
+        "role" : "user",
+        "firstName": "Rohit",
+        "lastName": "Verma"
     },
     {
         "email" : "nitin@gmail.com",
-        "password" : "nitin@1234"
+        "password" : "nitin@1234",
+        "role" : "user",
+        "firstName": "Nitin",
+        "lastName": "Patel"
     },
     {
         "email" : "neel@gmail.com",
-        "password" : "neel@1234"
+        "password" : "neel@1234",
+        "role" : "user",
+        "firstName": "Neel",
+        "lastName": "Buha"
     },
 
     {
         "email" : "mukesh@gmail.com",
-        "password" : "mukesh@1234"
+        "password" : "mukesh@1234",
+        "role" : "user",
+        "firstName": "Mukesh",
+        "lastName": "Patel"
     }
 ]

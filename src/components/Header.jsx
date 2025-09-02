@@ -10,7 +10,7 @@ import { useAuth } from "../context/AuthContext";
 function Header({ onSignUpClick, onSignInClick }) {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
-  const { isLoggedIn, logOut } = useAuth();
+  const { isLoggedIn, logOut , role } = useAuth();
 
   useEffect(() => {
     const existingUsers = JSON.parse(localStorage.getItem("users"));
@@ -19,7 +19,13 @@ function Header({ onSignUpClick, onSignInClick }) {
       localStorage.setItem("users", JSON.stringify(userData));
       console.log("User data loaded into localStorage from userdata.json");
     }
+    console.log(userData);
+    
   }, []);
+  useEffect(() => {
+  console.log("Role from context:", role);
+  console.log("Role from localStorage:", localStorage.getItem("role"));
+}, [role]);
 
   const toggleMenu = () => {
     setMenuOpen((prev) => !prev);

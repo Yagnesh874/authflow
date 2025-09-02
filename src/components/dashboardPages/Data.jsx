@@ -5,6 +5,7 @@ import html2canvas from "html2canvas";
 import autoTable from "jspdf-autotable";
 import { toast } from "react-toastify";
 import { body } from "motion/react-client";
+import { useAuth } from "../../context/AuthContext";
 
 const Data = () => {
   const usersPerPage = 8;
@@ -17,6 +18,7 @@ const Data = () => {
   const [deptName, setDeptName] = useState("");
   const [age, setAge] = useState("");
   const [viewMode, setViewMode] = useState("table");
+  const { role } = useAuth();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -195,6 +197,7 @@ const Data = () => {
                 <button className="export-pdf" onClick={exportToPdf}>
                   Download PDF
                 </button>
+
               </div>
             </div>
 
@@ -208,6 +211,7 @@ const Data = () => {
                     <th>Department</th>
                     <th>City</th>
                     <th>Age</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -228,6 +232,13 @@ const Data = () => {
                       <td>{user.company.department}</td>
                       <td>{user.company.address.city}</td>
                       <td>{user.age}</td>
+                      <td>
+                        {role === "admin" ? (
+                            <button className="edit-btn-2">Edit</button>
+                        ) :(
+                          <button className="view-btn">View</button>
+                        )}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -239,8 +250,9 @@ const Data = () => {
                     <p>
                       <strong>
                         {user.firstName} {user.lastName}
-                      </strong>
-                    </p>
+                        </strong>
+                        </p>
+                        
                     <p>✉️ Email: {user.email}</p>
                     <p>📞 Phone: {user.phone}</p>
                     <p>🏢 Department: {user.company.department}</p>

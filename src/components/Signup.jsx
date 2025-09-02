@@ -13,7 +13,7 @@ const Signup = ({ onClose, onOpenSignin }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [visible, setVisible] = useState(false);
-  const { login } = useAuth();
+  const { login  , role} = useAuth();
   console.log(firstName);
   console.log(lastName);
 
@@ -32,18 +32,18 @@ const Signup = ({ onClose, onOpenSignin }) => {
       return;
     }
 
-    const newUser = { firstName, lastName, email, password };
+    const role = users.length === 0 ? "admin" : "user";
+
+    const newUser = { firstName, lastName, email, password , role };
     const updatedUser = [...users, newUser];
     localStorage.setItem("users", JSON.stringify(updatedUser));
-    // localStorage.setItem("firstName" , firstName);
-    // localStorage.setItem("lastName" , lastName)
-    login(email, firstName, lastName);
+    login(email, firstName, lastName , role);
     setEmail("");
     setPassword("");
     setFirstName("");
     setLastName("");
     toast.success("Account Created Successfully");
-    console.log(email, firstName, lastName);
+    console.log(email, firstName, lastName , role);
 
     setTimeout(() => {
       onOpenSignin();
