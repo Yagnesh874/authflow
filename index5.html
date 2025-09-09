@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Sidebar Menu</title>
+  <style>
+    /* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Sidebar */
+.sidebar {
+  background: #333;
+  color: white;
+  width: 220px;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  padding-top: 50px;
+  transition: transform 0.3s ease;
+  z-index: 1000;
+}
+
+/* Close button inside sidebar */
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 26px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: none; /* hidden on desktop */
+}
+
+/* Menu list */
+.sidebar .menu {
+  list-style: none;
+}
+
+.sidebar .menu li {
+  margin: 10px 0;
+}
+
+.sidebar .menu li a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  padding: 12px 20px;
+  transition: background 0.3s;
+}
+
+.sidebar .menu li a:hover {
+  background: #444;
+}
+
+/* Hamburger toggle button */
+.menu-toggle {
+  display: none; /* hidden on desktop */
+  font-size: 28px;
+  color: white;
+  background: #333;
+  border: none;
+  cursor: pointer;
+  padding: 10px 15px;
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1100;
+}
+
+/* Content */
+.content {
+  margin-left: 220px;
+  padding: 20px;
+}
+
+.section {
+  height: 100vh;
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* -------- Mobile (iPhone etc.) -------- */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%); /* hidden by default */
+  }
+
+  .sidebar.active {
+    transform: translateX(0); /* show when active */
+  }
+
+  .menu-toggle {
+    display: block; /* show hamburger on mobile */
+  }
+
+  .close-btn {
+    display: block; /* show close button on mobile */
+  }
+
+  .content {
+    margin-left: 0; /* take full width */
+  }
+}
+
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar">
+    <button class="close-btn" id="close-btn">×</button>
+    <ul class="menu">
+      <li><a href="#home">🏠 Home</a></li>
+      <li><a href="#about">ℹ️ About</a></li>
+      <li><a href="#services">🛠 Services</a></li>
+      <li><a href="#contact">📞 Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hamburger button (only visible on mobile) -->
+  <button class="menu-toggle" id="menu-toggle">☰</button>
+
+  <!-- Page Content -->
+  <main class="content">
+    <section id="home" class="section">Home</section>
+    <section id="about" class="section">About</section>
+    <section id="services" class="section">Services</section>
+    <section id="contact" class="section">Contact</section>
+  </main>
+
+  <script>
+    const menuToggle = document.getElementById("menu-toggle");
+const sidebar = document.getElementById("sidebar");
+const closeBtn = document.getElementById("close-btn");
+
+// Open sidebar
+menuToggle.addEventListener("click", () => {
+  sidebar.classList.add("active");
+});
+
+// Close sidebar
+closeBtn.addEventListener("click", () => {
+  sidebar.classList.remove("active");
+});
+
+  </script>
+</body>
+</html>

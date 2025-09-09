@@ -202,7 +202,7 @@ const Data = () => {
             </div>
 
             {viewMode === "table" ? (
-              <table className="table">
+              <table className="table responsive-table">
                 <thead>
                   <tr>
                     <th>Name</th>
@@ -217,7 +217,7 @@ const Data = () => {
                 <tbody>
                   {paginatedUsers.map((user) => (
                     <tr key={user.id}>
-                      <td>
+                      <td data-label="Name">
                         <div className="user-info">
                           <div className="user-avatar">
                             {user.firstName[0]} {user.lastName[0]}
@@ -227,12 +227,12 @@ const Data = () => {
                           </span>
                         </div>
                       </td>
-                      <td>{user.email}</td>
-                      <td>{user.phone}</td>
-                      <td>{user.company.department}</td>
-                      <td>{user.company.address.city}</td>
-                      <td>{user.age}</td>
-                      <td>
+                      <td data-label="Email">{user.email}</td>
+                      <td data-label="Phone">{user.phone}</td>
+                      <td data-label="Department">{user.company.department}</td>
+                      <td data-label="City">{user.company.address.city}</td>
+                      <td data-label="Age">{user.age}</td>
+                      <td className="actions">
                         {role === "admin" ? (
                             <button className="edit-btn-2">Edit</button>
                         ) :(
@@ -279,6 +279,7 @@ const Data = () => {
               </div>
             )}
           </div>
+          
         </div>
       </div>
     </div>

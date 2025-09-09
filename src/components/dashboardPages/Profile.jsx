@@ -3,10 +3,12 @@ import "./profile.css";
 import { useAuth } from "../../context/AuthContext";
 import { useTheme } from "../../context/ThemeContext";
 import { toast } from "react-toastify";
+import { NavLink } from "react-router-dom";
 
 const Profile = () => {
   const [profileOpen, setProfileOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true)
   const { firstName, lastName, emailId, logOut, updateName } = useAuth();
   const { darkMode, toggleTheme } = useTheme();
   const firstNameRef = useRef(null);
@@ -15,6 +17,12 @@ const Profile = () => {
   const toggleProfile = () => {
     setProfileOpen(!profileOpen);
   };
+
+  const toggleSlider = () => {
+    setSidebarOpen(!sidebarOpen);
+  }
+
+
   const editProfile = () => {
     if (firstNameRef.current && lastNameRef.current) {
       const updatedFirstName = firstNameRef.current.value.trim();
@@ -29,25 +37,71 @@ const Profile = () => {
 
   return (
     <div className="container-2">
-      <div className="sidebar">
+      <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
         <div className="sidebar-header">
           <h2>Admin Panel</h2>
         </div>
 
         <ul className="nav-links">
           <li>
-            <a href="#" className="active">
+            <NavLink to="/dashboard" className="active">
               <svg className="nav-icon" viewBox="0 0 24 24">
                 <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z" />
               </svg>
               Dashboard
-            </a>
+            </NavLink>
           </li>
         </ul>
+
+        <div className="profile-container">
+          <div className="profile-box" onClick={toggleProfile}>
+            {firstName?.charAt(0) || "A"}
+            {lastName?.charAt(0) || "D"}
+            <div className="profile-details">
+              <div className="profile-username">
+                {firstName || "User"} {lastName || ""}
+              </div>
+              <div className="profile-email">{emailId || "user@example.com"}</div>
+            </div>
+          </div>
+          {profileOpen && (
+            <div className="profile-submenu">
+              {isEditing ? (
+                <div className="edit-fields">
+                  <input
+                    type="text"
+                    defaultValue={firstName}
+                    ref={firstNameRef}
+                    placeholder="First name"
+                  />
+                  <input
+                    type="text"
+                    defaultValue={lastName}
+                    ref={lastNameRef}
+                    placeholder="Last name"
+                  />
+                  <button onClick={editProfile}>Save</button>
+                  <button onClick={() => setIsEditing(false)}>Cancel</button>
+                </div>
+              ) : (
+                <>
+                  <button className="edit-btn" onClick={() => setIsEditing(true)}>
+                    Edit
+                  </button>
+                  <button className="logout-btn" onClick={logOut}>
+                    Logout
+                  </button>
+                </>
+              )}
+            </div>
+          )}
+        </div>
       </div>
+
 
       <div className="main-content-2">
         <div className="top-nav">
+          <button className="hamburger" onClick={toggleSlider}>☰</button>
           <div className="search-container"></div>
           <div className="nav-actions">
             <button className="theme-toggle" onClick={toggleTheme}>
@@ -76,59 +130,6 @@ const Profile = () => {
                 </svg>
               )}
             </button>
-
-            <div className="profile-container">
-              <div className="profile-picture" onClick={toggleProfile}>
-                {firstName?.charAt(0) || "A"}
-                {lastName?.charAt(0) || "D"}
-              </div>
-
-              {profileOpen && (
-                <div className="profile-dropdown active">
-                  <div className="profile-info">
-                    <div className="profile-name">
-                      {isEditing ? (
-                        <>
-                          <input
-                            type="text"
-                            defaultValue={firstName}
-                            ref={firstNameRef}
-                            placeholder="First name"
-                          />
-                          <input
-                            type="text"
-                            defaultValue={lastName}
-                            ref={lastNameRef}
-                            placeholder="Last name"
-                          />
-                          <button onClick={editProfile}>Save</button>
-                        </>
-                      ) : (
-                        <>
-                          {!firstName && !lastName
-                            ? "user"
-                            : `${firstName || ""} ${lastName || ""}`}
-                          <button
-                            className="edit-btn"
-                            onClick={() => setIsEditing(true)}
-                          >
-                            Edit
-                          </button>
-                        </>
-                      )}
-                    </div>
-                    <div className="profile-email">{emailId}</div>
-                  </div>
-                  <button
-                    className="dropdown-item logout-item"
-                    onClick={logOut}
-                  >
-                    <img src="./src/assets/logout.png" alt="" />
-                    Logout
-                  </button>
-                </div>
-              )}
-            </div>
           </div>
         </div>
       </div>
